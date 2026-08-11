@@ -116,3 +116,28 @@ int main()
 
     return 0;
 }
+//Output:
+//Enter received Hamming codeword: 1011011
+
+//Number of bits in received codeword = 7
+//Number of redundant bits = 3
+
+//--------------------------------
+//Analyzing Redundant Bits
+//--------------------------------
+
+//R1 - Analyze bits at: 1 3 5 7 
+//Parity value = 1
+
+//R2 - Analyze bits at: 2 3 6 7 
+//Parity value = 0
+
+//R4 - Analyze bits at: 4 5 6 7 
+//Parity value = 1
+
+//--------------------------------
+//Syndrome = 101
+//Decimal equivalent = 5
+
+//Error is located at 5th position.
+//Corrected codeword is: 1001011
