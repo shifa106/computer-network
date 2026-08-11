@@ -107,3 +107,31 @@ int main()
 
     return 0;
 }
+//Output:
+//Enter data bits: 1011   
+
+
+//Number of Data Bits: 4
+//Number of Redundant Bits: 3
+//Total Number of Bits in Codeword: 7
+
+//----------------------------------------
+//Calculating Redundant Bits
+//----------------------------------------
+
+//R1 - Analyze bits at: 1 3 5 7 
+//Bits excluding R1: 111
+//Set R1 = 1
+
+//R2 - Analyze bits at: 2 3 6 7 
+//Bits excluding R2: 101
+//Set R2 = 0
+
+//R4 - Analyze bits at: 4 5 6 7 
+//Bits excluding R4: 101
+//Set R4 = 0
+
+//----------------------------------------
+//Final Codeword / Codeword Transmitted
+//----------------------------------------
+//1010101
