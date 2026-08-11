@@ -4,112 +4,103 @@ using namespace std;
 
 int main()
 {
-    string code;
+    string data;
+    
+    cout << "Enter data bits: ";
+    cin >> data;
 
-    cout << "Enter received Hamming codeword: ";
-    cin >> code;
-
-    int n = code.length();
-
-    // Find number of redundant bits
+    int m = data.length();
     int r = 0;
 
-    while ((1 << r) < (n + 1))
+    // Calculate number of redundant bits
+    while ((1 << r) < (m + r + 1))
         r++;
 
-    // Store bits according to Hamming positions
+    int n = m + r;
+
+    cout << "\nData Word: " << data;
+    cout << "\nNumber of Data Bits: " << m;
+    cout << "\nNumber of Redundant Bits: " << r;
+    cout << "\nTotal Number of Bits in Codeword: " << n;
+
+    // Array for Hamming code
     // Position 1 is the RIGHTMOST bit
-    int bit[100];
+    int bit[100] = {0};
+
+    // ------------------------------------------------
+    // Place data bits
+    // Parity positions = 1, 2, 4, 8, 16, ...
+    // Data is placed from RIGHT to LEFT
+    // ------------------------------------------------
+
+    int j = m - 1;
 
     for (int pos = 1; pos <= n; pos++)
     {
-        bit[pos] = code[n - pos] - '0';
+        // Check whether position is power of 2
+        if ((pos & (pos - 1)) == 0)
+        {
+            bit[pos] = 0;       // Redundant bit
+        }
+        else
+        {
+            bit[pos] = data[j] - '0';
+            j--;
+        }
     }
 
-    cout << "\nNumber of bits in received codeword = " << n;
-    cout << "\nNumber of redundant bits = " << r;
+    cout << "\n\n----------------------------------------";
+    cout << "\nCalculating Redundant Bits";
+    cout << "\n----------------------------------------";
 
-    cout << "\n\n--------------------------------";
-    cout << "\nAnalyzing Redundant Bits";
-    cout << "\n--------------------------------";
+    // ------------------------------------------------
+    // Calculate redundant bits using EVEN PARITY
+    // ------------------------------------------------
 
-    int syndrome = 0;
-
-    // Check every redundant bit
     for (int p = 1; p <= n; p = p * 2)
     {
         int parity = 0;
-
-        // Check all positions covered by this parity bit
-        for (int pos = 1; pos <= n; pos++)
-        {
-            if (pos & p)
-            {
-                parity = parity ^ bit[pos];
-            }
-        }
 
         cout << "\n\nR" << p << " - Analyze bits at: ";
 
         for (int pos = 1; pos <= n; pos++)
         {
             if (pos & p)
+            {
                 cout << pos << " ";
+
+                // Don't include R itself while calculating
+                if (pos != p)
+                    parity = parity ^ bit[pos];
+            }
         }
 
-        cout << "\nParity value = " << parity;
+        bit[p] = parity;
 
-        // If parity is 1, this parity check has failed
-        if (parity == 1)
-            syndrome = syndrome + p;
-    }
+        cout << "\nBits excluding R" << p << ": ";
 
-    // Display syndrome
-    cout << "\n\n--------------------------------";
-    cout << "\nSyndrome = ";
-
-    // Display from highest redundant bit to lowest
-    for (int p = 1; p < (1 << r); p = p * 2)
-    {
-        // Store nothing; syndrome will be printed below
-    }
-
-    for (int p = (1 << (r - 1)); p >= 1; p = p / 2)
-    {
-        cout << ((syndrome & p) ? 1 : 0);
-    }
-
-    cout << "\nDecimal equivalent = " << syndrome;
-
-    // Check error
-    if (syndrome == 0)
-    {
-        cout << "\n\nNo error detected.";
-        cout << "\nReceived codeword is CORRECT.";
-    }
-    else if (syndrome > n)
-    {
-        cout << "\n\nError position is outside the codeword.";
-        cout << "\nMore than one error may be present.";
-    }
-    else
-    {
-        cout << "\n\nError is located at "
-             << syndrome << "th position.";
-
-        // Correct the error
-        bit[syndrome] = bit[syndrome] ^ 1;
-
-        // Create corrected codeword
-        string corrected = "";
-
-        for (int pos = n; pos >= 1; pos--)
+        for (int pos = 1; pos <= n; pos++)
         {
-            corrected += char(bit[pos] + '0');
+            if ((pos & p) && pos != p)
+                cout << bit[pos];
         }
 
-        cout << "\nCorrected codeword is: "
-             << corrected;
+        cout << "\nSet R" << p << " = " << bit[p];
+    }
+
+    // ------------------------------------------------
+    // Display final codeword
+    // ------------------------------------------------
+
+    cout << "\n\n----------------------------------------";
+    cout << "\nFinal Codeword / Codeword Transmitted";
+    cout << "\n----------------------------------------";
+
+    cout << "\n";
+
+    for (int pos = n; pos >= 1; pos--)
+    {
+        cout << bit[pos];
     }
 
     cout << endl;
