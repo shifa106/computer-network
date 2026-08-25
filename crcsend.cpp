@@ -52,3 +52,13 @@ int main()
 
     return 0;
 }
+
+//output:
+/*Enter the code word: 1101011011
+Enter the divisor: 10011
+
+Extra bits added: 4
+After adding zeros: 11010110110000
+CRC: 1110
+Transmitted code word: 11010110111110
+*/
