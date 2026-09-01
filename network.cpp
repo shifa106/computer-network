@@ -167,7 +167,7 @@ int main()
     return 0;
 }
 /*
-Output:
+Output 1:
 
 Enter IPv4 address: 172.16.5.20
 
@@ -178,5 +178,17 @@ Class: B
 Net ID: 172.16
 Host ID: 5.20
 Network Address: 172.16.0.0
+
+Output 2:
+
+Enter IPv4 address: 192.168.1.10
+
+Valid IPv4 Address
+First Byte: 192
+First Byte as Integer: 192
+Class: C
+Net ID: 192.168.1
+Host ID: 10
+Network Address: 192.168.1.0
 
 */
